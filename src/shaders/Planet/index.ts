@@ -3,7 +3,7 @@ import vertexShader from "./vertex.glsl";
 
 import { ShaderMaterial, Texture } from "three";
 
-const createPlanetShader = (texture: Texture) => {
+const createPlanetShader = (texture: Texture | null) => {
   const uniforms = {
     innerTexture: {
       value: texture,
