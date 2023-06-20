@@ -1,7 +1,7 @@
 import { FC, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { PerspectiveCamera, Stars } from "@react-three/drei";
-import MoonModel from "./MoonModel";
+import PlanetModel from "./PlanetModel";
 
 const Landing: FC = () => {
   const cameraRef = useRef(null);
@@ -21,7 +21,7 @@ const Landing: FC = () => {
         <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 0, 8]} />
         <pointLight position={[-50, 50, -20]} />
         <ambientLight intensity={0.04} />
-        <MoonModel />
+        <PlanetModel />
         <Stars
           radius={100}
           depth={50}
