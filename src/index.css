@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --main-color: #2435b7;
+}
+.bg-main-color {
+  background-color: var(--main-color);
+}
+
 *,
 html {
   scroll-behavior: smooth !important;

@@ -14,7 +14,7 @@ const Landing: FC = () => {
 
   return (
     <>
-      <Canvas style={{ background: "#000000", zIndex: -5 }}>
+      <Canvas style={{ background: "#000000" }}>
         <World />
       </Canvas>
     </>

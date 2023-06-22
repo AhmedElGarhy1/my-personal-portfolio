@@ -9,7 +9,7 @@ const LoadingVariants = {
   },
   animate: {
     top: "-100%",
-    transition: { duration: 0.8, ease: "easeInOut" },
+    transition: { delay: 0.5, duration: 0.8, ease: "easeInOut" },
   },
 };
 
@@ -19,7 +19,7 @@ const circleLoadingVariants = {
   },
   animate: {
     height: ["200px", "0px"],
-    transition: { duration: 1, ease: "easeInOut" },
+    transition: { delay: 0.5, duration: 1, ease: "easeInOut" },
   },
 };
 
@@ -41,10 +41,10 @@ const LoadingComponent: FC = () => {
         variants={LoadingVariants}
         animate={loadingControle}
         initial="initial"
-        className="fixed w-full">
+        className="fixed w-full  z-50">
         <motion.div
           className={
-            "relative bg-[#2435b7] w-full h-full text-white text-center flex justify-center items-center "
+            "relative bg-main-color w-full h-full text-white text-center flex justify-center items-center "
           }>
           <div>
             <h1 className="text-6xl">* Hello</h1>
@@ -53,7 +53,7 @@ const LoadingComponent: FC = () => {
             </p>
           </div>
           <motion.div
-            className="w-[110%]  bg-[#2435b7] rounded-[50%] absolute translate-y-1/2 bottom-0"
+            className="w-[110%]  bg-main-color rounded-[50%] absolute translate-y-1/2 bottom-0"
             variants={circleLoadingVariants}
             initial="initial"
             animate={circleControle}
