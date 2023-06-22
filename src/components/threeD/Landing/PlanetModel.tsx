@@ -1,6 +1,6 @@
 import { FC, useRef, useEffect, useCallback } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { Mesh, MeshStandardMaterial, Vector3 } from "three";
+import { Mesh, MeshStandardMaterial } from "three";
 
 // @ts-ignore
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";

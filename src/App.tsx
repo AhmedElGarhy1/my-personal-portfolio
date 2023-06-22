@@ -1,4 +1,3 @@
-import { FC } from "react";
 import LoadingComponent from "./components/Loading";
 import Landing from "./components/threeD/Landing";
 // import FollowMouseAnimation from "./components/utils/CursorAnimation";
