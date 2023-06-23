@@ -38,17 +38,6 @@ const ElectronRingParticles = forwardRef<Group>((_, ref) => {
   });
   return (
     <>
-      <mesh>
-        <sphereGeometry args={[0.06]} />
-        <shaderMaterial
-          vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
-          uniforms={{
-            uI: { value: 1 },
-          }}
-        />
-      </mesh>
-
       <group ref={ref}>
         {[...Array(RINGS_SIZE)].map((_, i) => (
           <mesh

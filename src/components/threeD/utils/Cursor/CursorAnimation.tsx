@@ -4,28 +4,22 @@ import { Mesh, Vector3, Group, Plane } from "three";
 import { gsap } from "gsap";
 import ElectronRingParticles from "./ElectronAnimation";
 
+import vertexShader from "../../../../shaders/Mouse/vertex.glsl";
+import fragmentShader from "../../../../shaders/Mouse/fragment.glsl";
+
 const intersectionPoint = new Vector3();
 const planeNormal = new Vector3();
 const plane = new Plane();
 
 const CircleCursor = () => {
   const circleRef = useRef<Mesh>(null);
+  const mouseCursorRef = useRef<Mesh>(null);
   const electronRef = useRef<Group>(null);
 
   useFrame(({ camera, scene, pointer, raycaster }) => {
     const mesh = circleRef.current;
-    if (!mesh) return;
-
-    // // update time
-    // // @ts-ignore
-    // mesh.material.uniforms.uTime = {
-    //   value: clock.oldTime / 10000,
-    // };
-    // // update center
-    // // @ts-ignore
-    // mesh.material.uniforms.uCenter = {
-    //   value: new Vector2(intersectionPoint.x, intersectionPoint.y),
-    // };
+    const mouseCursor = mouseCursorRef.current;
+    if (!mesh || !mouseCursor) return;
 
     // get the current mesh position from camera to the 3d Wrold and store it in intersectionPoint
     raycaster.setFromCamera(pointer, camera);
@@ -34,8 +28,15 @@ const CircleCursor = () => {
     raycaster.setFromCamera(pointer, camera);
     raycaster.ray.intersectPlane(plane, intersectionPoint);
 
-    // tempCircle.current.rotation.y += delta;
+    gsap.to(mouseCursor.position, {
+      x: intersectionPoint.x,
+      y: intersectionPoint.y,
+      z: intersectionPoint.z,
+      duration: 0.1,
+      ease: "power2.easeOut",
+    });
 
+    // tempCircle.current.rotation.y += delta;
     gsap.to(mesh.position, {
       x: intersectionPoint.x,
       y: intersectionPoint.y,
@@ -48,6 +49,10 @@ const CircleCursor = () => {
   return (
     <>
       <group>
+        <mesh ref={mouseCursorRef}>
+          <sphereGeometry args={[0.06]} />
+          <meshBasicMaterial color="white" />
+        </mesh>
         <mesh ref={circleRef} position={[0, 0, -10]}>
           <ElectronRingParticles ref={electronRef} />
         </mesh>
