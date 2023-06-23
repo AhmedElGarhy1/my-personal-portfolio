@@ -4,9 +4,6 @@ import { Mesh, Vector3, Group, Plane } from "three";
 import { gsap } from "gsap";
 import ElectronRingParticles from "./ElectronAnimation";
 
-import vertexShader from "../../../../shaders/Mouse/vertex.glsl";
-import fragmentShader from "../../../../shaders/Mouse/fragment.glsl";
-
 const intersectionPoint = new Vector3();
 const planeNormal = new Vector3();
 const plane = new Plane();
