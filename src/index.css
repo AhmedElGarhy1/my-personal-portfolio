@@ -12,8 +12,14 @@
 *,
 html {
   scroll-behavior: smooth !important;
+  /* border: 1px solid green; */
 }
 
-.wrapper {
-  /* scroll-snap-type: y mandatory; */
+body {
+  min-height: 100vh;
+  height: -webkit-fill-available;
+}
+html,
+#root {
+  height: -webkit-fill-available;
 }

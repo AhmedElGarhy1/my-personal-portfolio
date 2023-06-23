@@ -1,7 +1,7 @@
 // import { useEffect } from "react";
 import { Stars } from "@react-three/drei";
 import PlanetModel from "./PlanetModel";
-import CircleCursor from "../utils/CursorAnimation";
+import CircleCursor from "../utils/Cursor/CursorAnimation";
 // import { gsap } from "gsap";
 
 const World = () => {

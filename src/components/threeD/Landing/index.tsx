@@ -14,7 +14,9 @@ const Landing: FC = () => {
 
   return (
     <>
-      <Canvas style={{ background: "#000000" }}>
+      <Canvas
+        className="h-[-webkit-fill-available]"
+        style={{ background: "#000000" }}>
         <World />
       </Canvas>
     </>

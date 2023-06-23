@@ -41,7 +41,7 @@ const LoadingComponent: FC = () => {
         variants={LoadingVariants}
         animate={loadingControle}
         initial="initial"
-        className="fixed w-full  z-50">
+        className="fixed w-full z-50">
         <motion.div
           className={
             "relative bg-main-color w-full h-full text-white text-center flex justify-center items-center "
