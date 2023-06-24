@@ -1,10 +1,17 @@
 // import { useEffect } from "react";
+import { FC } from "react";
+import { Vector3 } from "three";
 import { Stars } from "@react-three/drei";
 import PlanetModel from "./PlanetModel";
-import CircleCursor from "../utils/Cursor/CursorAnimation";
+// import CircleCursor from "../utils/Cursor/CursorAnimation";
+// import NebulaScene from "./NebulaEffect";
 // import { gsap } from "gsap";
 
-const World = () => {
+interface PropsType {
+  mouse: Vector3 | undefined;
+}
+
+const World: FC<PropsType> = ({ mouse }) => {
   //   useFrame((_, delta) => {
   //     camera.rotation.y += delta / 100;
   //   });
@@ -22,8 +29,9 @@ const World = () => {
       {/* controller */}
       {/* <OrbitControls /> */}
       {/* modles */}
-      <PlanetModel />
-      <CircleCursor />
+      <PlanetModel mouse={mouse} />
+      {/* <CircleCursor /> */}
+      {/* <NebulaScene /> */}
 
       <Stars
         radius={100}

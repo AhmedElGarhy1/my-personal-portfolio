@@ -1,6 +1,6 @@
 import { FC, useRef, useEffect, useCallback } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { Mesh, MeshStandardMaterial, Vector2 } from "three";
+import { Mesh, MeshStandardMaterial, Vector3 } from "three";
 
 // @ts-ignore
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
@@ -8,7 +8,11 @@ import createPlanetShader from "../../../shaders/Planet";
 import createAtmoshpereShader from "../../../shaders/Planet/atmoshpere";
 import { gsap } from "gsap";
 
-const PlanetModel: FC = () => {
+interface PropsType {
+  mouse: Vector3 | undefined;
+}
+
+const PlanetModel: FC<PropsType> = ({ mouse }) => {
   // const {} = useScroll({
   //   offset: 2000,
   // });
@@ -57,28 +61,29 @@ const PlanetModel: FC = () => {
     gltf.scene.traverse(setShaderMaterial);
   }, [gltf.scene, setShaderMaterial]);
 
-  useFrame(({ mouse }, delta) => {
+  useFrame(() => {
     const mesh = meshRef.current;
-    if (!meshRef || !mesh || !mesh?.rotation) return;
-    mouse = new Vector2(mouse.y, mouse.x);
-
-    meshRef.current.rotation.y -= delta / 25;
+    if (!meshRef || !mesh || !mesh?.rotation || !mouse) return;
 
     gsap.to(mesh.rotation, {
-      x: -mouse.x * 0.1,
+      x: -mouse.y * 0.4,
+      y: mouse.x * 0.4,
       ease: "Power1.easeOut",
-      duration: 5,
+      duration: 4,
     });
-    // if (sphereMat && sphereMat.uniforms) {
-    //   sphereMat.uniforms.uMouse.value = mousePos;
-    // }
+    gsap.to(mesh.position, {
+      x: -mouse.x * 1.5,
+      ease: "easeOut",
+      duration: 4,
+    });
   });
 
   return (
     <mesh>
       <primitive
         position={[0, -1, -50]}
-        scale={[30, 30, 30]}
+        rotation={[0, 0.5, 0]}
+        scale={[15, 15, 15]}
         ref={meshRef}
         object={gltf.scene}
       />
