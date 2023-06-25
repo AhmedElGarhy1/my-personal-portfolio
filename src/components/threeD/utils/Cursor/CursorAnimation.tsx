@@ -50,7 +50,7 @@ const CircleCursor: FC<PropsType> = ({ mouse }) => {
   return (
     <>
       <mesh ref={mouseCursorRef}>
-        <sphereGeometry args={[0.06]} />
+        <sphereGeometry args={[0.25]} />
         <meshBasicMaterial color="white" />
       </mesh>
       <mesh ref={circleRef} position={[0, 0, -10]}>

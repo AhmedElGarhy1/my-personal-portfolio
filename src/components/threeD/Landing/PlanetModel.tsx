@@ -1,4 +1,4 @@
-import { FC, useRef, useEffect, useCallback } from "react";
+import { FC, useRef, useEffect, useCallback, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { Mesh, MeshStandardMaterial, Vector3 } from "three";
 
@@ -22,6 +22,7 @@ const PlanetModel: FC<PropsType> = ({ mouse }) => {
   // const [sphereMat, setSphereMat] = useState<ShaderMaterial>();
 
   const meshRef = useRef<Mesh>(null);
+  const [shpereGeo, setShpereGeo] = useState<Mesh>();
   const gltf = useLoader(GLTFLoader, "/planet/scene.gltf");
 
   const setShaderMaterial = useCallback(
@@ -32,6 +33,7 @@ const PlanetModel: FC<PropsType> = ({ mouse }) => {
           const mat = createAtmoshpereShader();
           cop.material = mat;
           cop.scale.set(1.5, 1.5, 1.5);
+          setShpereGeo(cop);
           gltf.scene.add(cop);
           // setSphereMat(mat);
         }
@@ -55,13 +57,13 @@ const PlanetModel: FC<PropsType> = ({ mouse }) => {
     return () => {
       bounceAnimation.kill();
     };
-  }, []);
+  }, [shpereGeo]);
 
   useEffect(() => {
     gltf.scene.traverse(setShaderMaterial);
   }, [gltf.scene, setShaderMaterial]);
 
-  useFrame(() => {
+  useFrame((_, delta) => {
     const mesh = meshRef.current;
     if (!meshRef || !mesh || !mesh?.rotation || !mouse) return;
 
@@ -76,12 +78,14 @@ const PlanetModel: FC<PropsType> = ({ mouse }) => {
       ease: "easeOut",
       duration: 4,
     });
+    if (!shpereGeo) return;
+    shpereGeo.rotation.y -= delta / 10;
   });
 
   return (
     <mesh>
       <primitive
-        position={[0, -1, -50]}
+        position={[0, -1, -15]}
         rotation={[0, 0.5, 0]}
         scale={[15, 15, 15]}
         ref={meshRef}

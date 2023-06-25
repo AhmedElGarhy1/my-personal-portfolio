@@ -86,12 +86,13 @@ float snoise(vec3 v){
 
 void main(){
 
-    float newTime = uTime * 0.3;
+    float newTime = uTime * 0.05;
 
-    float noise_a = (snoise(newTime + position.xyz*2.));
+    float noise_a = (snoise(newTime + position.xyz))*0.03;
 
     vec3 force = (vec3(noise_a)+0.5);
     
+    // vec3 newPos = position ;
     vec3 newPos = position  + position * noise_a ;
 
     uVu = uv;
@@ -99,5 +100,5 @@ void main(){
     uNoise = noise_a;
 
     gl_PointSize = uSize;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
 }

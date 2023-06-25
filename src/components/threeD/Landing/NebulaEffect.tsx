@@ -1,67 +1,104 @@
-import { useMemo, useRef } from "react";
-import { Points } from "three";
+import { useRef } from "react";
+import { Mesh, TextureLoader, DoubleSide } from "three";
 import { useFrame } from "@react-three/fiber";
 
 import vertextShader from "../../../shaders/Nebula/vertex.glsl";
 import fragmentShader from "../../../shaders/Nebula/fragment.glsl";
-import { getRandomNumber } from "../../../utils/math";
-
-const count = 80000;
 
 const NebulaEffect = () => {
-  const nebulaPointsRef = useRef<Points>(null);
+  const nebulaPointsRef = useRef<Mesh>(null);
   // This reference gives us direct access to our points
   // const points = useRef();
 
   // Generate our positions attributes array
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
     if (!nebulaPointsRef || !nebulaPointsRef.current) return;
 
     const time = clock.getElapsedTime();
     const points = nebulaPointsRef.current;
     // @ts-ignore
     points.material.uniforms.uTime = { value: time };
+    points.rotation.z += delta / 200;
+    points.position.x -= delta / 5;
+    points.position.y += delta / 15;
   });
 
-  const particlesPosition = useMemo(() => {
-    const positions = new Float32Array(count * 2);
+  // const particlesPosition = useMemo(() => {
+  //   const positions = new Float32Array(count * 2);
 
-    for (let i = 0; i < count; i++) {
-      const x = getRandomNumber(
-        -window.innerWidth / 150,
-        window.innerWidth / 150
-      );
-      const y = getRandomNumber(
-        -window.innerHeight / 150,
-        window.innerHeight / 150
-      );
+  //   for (let i = 0; i < count; i++) {
+  //     const x = getRandomNumber(
+  //       -window.innerWidth / 150,
+  //       window.innerWidth / 150
+  //     );
+  //     const y = getRandomNumber(
+  //       -window.innerHeight / 150,
+  //       window.innerHeight / 150
+  //     );
 
-      positions.set([x, y], i * 2);
-    }
+  //     positions.set([x, y], i * 2);
+  //   }
 
-    return positions;
-  }, []);
+  //   return positions;
+  // }, []);
+
+  // useEffect(() => {
+  //   if (!nebulaPointsRef || !nebulaPointsRef.current) return;
+  //   const positions = new Float32Array(count * 2);
+
+  //   for (let i = 0; i < count; i += 2) {
+  //     const x = getRandomNumber(
+  //       -window.innerWidth / 150,
+  //       window.innerWidth / 150
+  //     );
+  //     const y = getRandomNumber(
+  //       -window.innerHeight / 150,
+  //       window.innerHeight / 150
+  //     );
+  //     positions[i] = x;
+  //     positions[i + 1] = y;
+
+  //     // positions.setXY([x, y], i * 2);
+  //   }
+  //   nebulaPointsRef.current.geometry.setAttribute(
+  //     "position",
+  //     new BufferAttribute(positions, 2)
+  //   );
+  // }, []);
 
   return (
-    <points ref={nebulaPointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={particlesPosition.length / 2}
-          array={particlesPosition}
-          itemSize={2}
-        />
-      </bufferGeometry>
+    // <points ref={nebulaPointsRef}>
+    //   <bufferGeometry>
+    //     <bufferAttribute
+    //       attach="attributes-position"
+    //       count={particlesPosition.length / 2}
+    //       array={particlesPosition}
+    //       itemSize={2}
+    //     />
+    //   </bufferGeometry>
 
+    //   <shaderMaterial
+    //     vertexShader={vertextShader}
+    //     fragmentShader={fragmentShader}
+    //     uniforms={{
+    //       uSize: { value: 1.5 },
+    //       uTime: { value: 0 },
+    //     }}
+    //   />
+    // </points>
+    <mesh position={[90, -20, -100]} ref={nebulaPointsRef}>
+      <planeGeometry args={[65, 50, 650, 500]} />
       <shaderMaterial
         vertexShader={vertextShader}
         fragmentShader={fragmentShader}
+        side={DoubleSide}
         uniforms={{
-          uSize: { value: 1.5 },
-          uTime: { value: 0 },
+          uTexture: {
+            value: new TextureLoader().load("/nebula.png"),
+          },
         }}
       />
-    </points>
+    </mesh>
   );
 };
 

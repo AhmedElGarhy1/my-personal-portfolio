@@ -5,9 +5,9 @@ import { Group, AdditiveBlending, Vector3 } from "three";
 import vertexShader from "../../../../shaders/Mouse/vertex.glsl";
 import fragmentShader from "../../../../shaders/Mouse/fragment.glsl";
 
-const RADIUS = 0.4;
-const BORDER = 0.002;
-const PARTICLE_WIDTH = 0.02;
+const RADIUS = 1.4;
+const BORDER = 0.01;
+const PARTICLE_WIDTH = 0.075;
 const PARTICLE_SIZE = 15;
 const RINGS_SIZE = 4;
 
