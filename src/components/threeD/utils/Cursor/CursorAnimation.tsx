@@ -1,48 +1,36 @@
 import { useRef, FC } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Mesh, Vector2, Vector3, Group, Plane } from "three";
+import { Mesh, Group } from "three";
 import { gsap } from "gsap";
 import ElectronRingParticles from "./ElectronAnimation";
+import { useGetMouse3DState } from "../../../../hooks/state";
 
-interface PropsType {
-  mouse: Vector3 | undefined;
-}
-
-const intersectionPoint = new Vector3();
-const planeNormal = new Vector3();
-const plane = new Plane();
-
-const CircleCursor: FC<PropsType> = ({ mouse }) => {
+const CircleCursor: FC = () => {
   const circleRef = useRef<Mesh>(null);
   const mouseCursorRef = useRef<Mesh>(null);
   const electronRef = useRef<Group>(null);
 
-  useFrame(({ camera, scene, raycaster }) => {
+  const mouse3D = useGetMouse3DState();
+
+  useFrame(() => {
     const mesh = circleRef.current;
     const mouseCursor = mouseCursorRef.current;
-    if (!mesh || !mouseCursor) return;
-
-    // get the current mesh position from camera to the 3d Wrold and store it in intersectionPoint
-    raycaster.setFromCamera(new Vector2(mouse?.x, mouse?.y), camera);
-    planeNormal.copy(camera.position).normalize();
-    plane.setFromNormalAndCoplanarPoint(planeNormal, scene.position);
-    raycaster.setFromCamera(new Vector2(mouse?.x, mouse?.y), camera);
-    raycaster.ray.intersectPlane(plane, intersectionPoint);
+    if (!mesh || !mouseCursor || !mouse3D) return;
 
     gsap.to(mouseCursor.position, {
-      x: intersectionPoint.x,
-      y: intersectionPoint.y,
-      z: intersectionPoint.z,
+      x: mouse3D.x,
+      y: mouse3D.y,
+      z: mouse3D.z,
       duration: 0.1,
       ease: "power2.easeOut",
     });
 
     // tempCircle.current.rotation.y += delta;
     gsap.to(mesh.position, {
-      x: intersectionPoint.x,
-      y: intersectionPoint.y,
-      z: intersectionPoint.z,
-      duration: 0.5,
+      x: mouse3D.x,
+      y: mouse3D.y,
+      z: mouse3D.z,
+      duration: 0.4,
       ease: "power2.easeOut",
     });
   });
@@ -50,11 +38,11 @@ const CircleCursor: FC<PropsType> = ({ mouse }) => {
   return (
     <>
       <mesh ref={mouseCursorRef}>
-        <sphereGeometry args={[0.25]} />
+        <sphereGeometry args={[0.08]} />
         <meshBasicMaterial color="white" />
       </mesh>
       <mesh ref={circleRef} position={[0, 0, -10]}>
-        <ElectronRingParticles mouse={mouse} ref={electronRef} />
+        <ElectronRingParticles ref={electronRef} />
       </mesh>
     </>
   );

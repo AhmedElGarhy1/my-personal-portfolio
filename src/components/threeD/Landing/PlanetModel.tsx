@@ -1,25 +1,16 @@
 import { FC, useRef, useEffect, useCallback, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { Mesh, MeshStandardMaterial, Vector3 } from "three";
+import { Mesh, MeshStandardMaterial } from "three";
 
 // @ts-ignore
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import createPlanetShader from "../../../shaders/Planet";
 import createAtmoshpereShader from "../../../shaders/Planet/atmoshpere";
 import { gsap } from "gsap";
+import { useGetMouse3DState } from "../../../hooks/state";
 
-interface PropsType {
-  mouse: Vector3 | undefined;
-}
-
-const PlanetModel: FC<PropsType> = ({ mouse }) => {
-  // const {} = useScroll({
-  //   offset: 2000,
-  // });
-  // const [mousePos, setMousePos] = useState<Vector2>(
-  //   new Vector2(undefined, undefined)
-  // );
-  // const [sphereMat, setSphereMat] = useState<ShaderMaterial>();
+const PlanetModel: FC = () => {
+  const mouse3D = useGetMouse3DState();
 
   const meshRef = useRef<Mesh>(null);
   const [shpereGeo, setShpereGeo] = useState<Mesh>();
@@ -46,16 +37,30 @@ const PlanetModel: FC<PropsType> = ({ mouse }) => {
 
   useEffect(() => {
     if (!meshRef || !meshRef.current) return;
-    const bounceAnimation = gsap.to(meshRef.current.position, {
-      y: 1,
-      duration: 5,
-      repeat: -1,
-      yoyo: true,
-      ease: "power1.inOut",
-    });
+    const bounceAnimation = gsap.fromTo(
+      meshRef.current.position,
+      {
+        y: -0.5,
+      },
+      {
+        y: 0.5,
+        duration: 5,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut",
+      }
+    );
+    // const starterAnimation = gsap.to(meshRef.current.position, {
+    //   y: 0.5,
+    //   duration: 5,
+    //   repeat: -1,
+    //   yoyo: true,
+    //   ease: "power1.inOut",
+    // });
 
     return () => {
       bounceAnimation.kill();
+      // starterAnimation.kill();
     };
   }, [shpereGeo]);
 
@@ -65,30 +70,30 @@ const PlanetModel: FC<PropsType> = ({ mouse }) => {
 
   useFrame((_, delta) => {
     const mesh = meshRef.current;
-    if (!meshRef || !mesh || !mesh?.rotation || !mouse) return;
+    if (!meshRef || !mesh || !mesh?.rotation || !mouse3D) return;
 
-    gsap.to(mesh.rotation, {
-      x: -mouse.y * 0.4,
-      y: mouse.x * 0.4,
+    const mouseRotation = gsap.to(mesh.rotation, {
+      x: -mouse3D.y * 0.07,
+      y: mouse3D.x * 0.07,
       ease: "Power1.easeOut",
-      duration: 4,
+      duration: 5,
     });
-    gsap.to(mesh.position, {
-      x: -mouse.x * 1.5,
-      ease: "easeOut",
-      duration: 4,
-    });
+
     if (!shpereGeo) return;
     shpereGeo.rotation.y -= delta / 10;
+
+    return () => {
+      mouseRotation.kill();
+    };
   });
 
   return (
     <mesh>
       <primitive
-        position={[0, -1, -15]}
-        rotation={[0, 0.5, 0]}
-        scale={[15, 15, 15]}
         ref={meshRef}
+        position={[15, -0.5, -100]}
+        rotation={[0, 0.5, 0]}
+        scale={[10, 10, 10]}
         object={gltf.scene}
       />
     </mesh>

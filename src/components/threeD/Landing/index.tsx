@@ -1,30 +1,26 @@
 import { FC } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Vector3 } from "three";
+import { Vector2 } from "three";
 import World from "./World";
-import CircleCursor from "../utils/Cursor/CursorAnimation";
-import { OrbitControls } from "@react-three/drei";
-import NebulaEffect from "./NebulaEffect";
 // import NebulaEffect from "./NebulaEffect";
 // import { OrbitControls } from "@react-three/drei";
 
 interface PropsType {
-  mouse: Vector3 | undefined;
+  mouse2D: Vector2 | undefined;
 }
 
-const Landing: FC<PropsType> = ({ mouse }) => {
+const Landing: FC<PropsType> = ({ mouse2D }) => {
   return (
     <>
       <Canvas
         camera={{
           position: [0, 0, 50],
-          fov: 30,
+          fov: 10,
         }}
-        className=" bg-black h-[-webkit-fill-available]">
-        <CircleCursor mouse={mouse} />
-        <OrbitControls />
-        <NebulaEffect />
-        <World mouse={mouse} />
+        className=" bg-black ">
+        {/* <OrbitControls /> */}
+        {/* <NebulaEffect /> */}
+        <World mouse2D={mouse2D} />
       </Canvas>
     </>
   );

@@ -25,9 +25,8 @@ void main() {
     // gl_FragColor = vec4(atmospere, 1.0);
 
     float intensity = pow(0.5 + dot(vertexNormal, vec3(1.0, 0.5, 1.0)), 3.0);
-
+    
     float newUI = uI*0.03;
-
-    vec3 color = vec3(vUv,newUI);
+    vec3 color = vec3(vertexNormal.xy,newUI);
     gl_FragColor = vec4(color, 1.) * intensity;
 }

@@ -19,8 +19,10 @@ body {
   min-height: 100vh;
   height: -webkit-fill-available;
 }
-html,
-#root {
-  cursor: none;
+html {
   height: -webkit-fill-available;
+}
+
+#root {
+  height: 100%;
 }

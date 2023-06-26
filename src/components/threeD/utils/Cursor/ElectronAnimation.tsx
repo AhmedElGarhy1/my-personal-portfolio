@@ -1,28 +1,27 @@
 import { useFrame } from "@react-three/fiber";
 import { forwardRef } from "react";
-import { Group, AdditiveBlending, Vector3 } from "three";
+import { Group, AdditiveBlending } from "three";
 
 import vertexShader from "../../../../shaders/Mouse/vertex.glsl";
 import fragmentShader from "../../../../shaders/Mouse/fragment.glsl";
+import { useGetMouseClickedState } from "../../../../hooks/state";
 
-const RADIUS = 1.4;
-const BORDER = 0.01;
-const PARTICLE_WIDTH = 0.075;
+const RADIUS = 0.5;
+const BORDER = 0.005;
+const PARTICLE_WIDTH = 0.03;
 const PARTICLE_SIZE = 15;
 const RINGS_SIZE = 4;
 
 let time = 0;
 
-interface PropsType {
-  mouse: Vector3 | undefined;
-}
+const ElectronRingParticles = forwardRef<Group>((_, ref) => {
+  const isMouseClicked = useGetMouseClickedState();
 
-const ElectronRingParticles = forwardRef<Group, PropsType>(({ mouse }, ref) => {
   useFrame(() => {
+    if (isMouseClicked) return;
     if (!ref) return;
     // @ts-ignore
     const group = ref.current as Group;
-    if (!mouse || !mouse.z) return;
     if (!group) return;
     // const time = clock.getElapsedTime();
     time += 0.015;
