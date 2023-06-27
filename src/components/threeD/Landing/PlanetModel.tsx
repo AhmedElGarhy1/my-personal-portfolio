@@ -1,4 +1,4 @@
-import { FC, useRef, useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, forwardRef } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { Mesh, MeshStandardMaterial } from "three";
 
@@ -7,12 +7,15 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import createPlanetShader from "../../../shaders/Planet";
 import createAtmoshpereShader from "../../../shaders/Planet/atmoshpere";
 import { gsap } from "gsap";
-import { useGetMouse3DState } from "../../../hooks/state";
-
-const PlanetModel: FC = () => {
+import {
+  useGetAspectRatioState,
+  useGetMouse3DState,
+} from "../../../hooks/state";
+const PlanetModel = forwardRef<Mesh>((_, ref) => {
   const mouse3D = useGetMouse3DState();
+  // const isMobile = useGetIsMobile();
+  const aspectRatio = useGetAspectRatioState();
 
-  const meshRef = useRef<Mesh>(null);
   const [shpereGeo, setShpereGeo] = useState<Mesh>();
   const gltf = useLoader(GLTFLoader, "/planet/scene.gltf");
 
@@ -36,9 +39,12 @@ const PlanetModel: FC = () => {
   );
 
   useEffect(() => {
-    if (!meshRef || !meshRef.current) return;
+    if (!ref) return;
+    // @ts-ignore
+    const mesh = ref.current as Mesh;
+    if (!mesh) return;
     const bounceAnimation = gsap.fromTo(
-      meshRef.current.position,
+      mesh.position,
       {
         y: -0.5,
       },
@@ -68,9 +74,21 @@ const PlanetModel: FC = () => {
     gltf.scene.traverse(setShaderMaterial);
   }, [gltf.scene, setShaderMaterial]);
 
+  // useEffect(() => {
+  //   if (!meshRef || !meshRef.current) return;
+
+  //   if (isMobile) {
+  //     meshRef.current.position.setX(10);
+  //   } else {
+  //     meshRef.current.position.setX(15);
+  //   }
+  // }, [isMobile]);
+
   useFrame((_, delta) => {
-    const mesh = meshRef.current;
-    if (!meshRef || !mesh || !mesh?.rotation || !mouse3D) return;
+    if (!ref) return;
+    // @ts-ignore
+    const mesh = ref.current;
+    if (!mesh || !mesh?.rotation || !mouse3D) return;
 
     const mouseRotation = gsap.to(mesh.rotation, {
       x: -mouse3D.y * 0.07,
@@ -90,14 +108,15 @@ const PlanetModel: FC = () => {
   return (
     <mesh>
       <primitive
-        ref={meshRef}
-        position={[15, -0.5, -100]}
+        ref={ref}
+        // position={[15, -0.5, -100]}
+        position={[0, 0, -200]}
         rotation={[0, 0.5, 0]}
-        scale={[10, 10, 10]}
+        scale={[7 + aspectRatio, 7 + aspectRatio, 7 + aspectRatio]}
         object={gltf.scene}
       />
     </mesh>
   );
-};
+});
 
 export default PlanetModel;

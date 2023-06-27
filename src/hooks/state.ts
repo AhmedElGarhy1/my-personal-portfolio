@@ -1,4 +1,6 @@
 import {
+  selectAspectRatio,
+  selectIsMobile,
   selectMouse3D,
   selectMouseClicked,
   selectScrollY,
@@ -17,4 +19,12 @@ export const useGetMouseClickedState = () => {
 export const useGetScrollYState = () => {
   const scrollY = useAppSelector(selectScrollY);
   return scrollY;
+};
+export const useGetIsMobile = () => {
+  const isMobile = useAppSelector(selectIsMobile);
+  return isMobile;
+};
+export const useGetAspectRatioState = () => {
+  const aspectRatio = useAppSelector(selectAspectRatio);
+  return aspectRatio;
 };

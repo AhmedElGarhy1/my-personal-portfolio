@@ -1,5 +1,5 @@
 // import { useEffect } from "react";
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import { Mesh, Vector3, Plane, Vector2 } from "three";
 // import { Stars } from "@react-three/drei";
 import PlanetModel from "./PlanetModel";
@@ -9,7 +9,12 @@ import CircleCursor from "../utils/Cursor/CursorAnimation";
 import Content from "./Content";
 import { updateMouse3D } from "../../../redux/slices/app";
 import { useAppDispatch } from "../../../hooks/store";
-import { useGetMouse3DState } from "../../../hooks/state";
+import {
+  useGetAspectRatioState,
+  useGetMouse3DState,
+  useGetScrollYState,
+} from "../../../hooks/state";
+import { gsap } from "gsap";
 // import CircleCursor from "../utils/Cursor/CursorAnimation";
 // import NebulaScene from "./NebulaEffect";
 // import { gsap } from "gsap";
@@ -25,7 +30,26 @@ const plane = new Plane();
 const World: FC<PropsType> = ({ mouse2D }) => {
   const dispatch = useAppDispatch();
   const mouse3D = useGetMouse3DState();
+  const scrollY = useGetScrollYState();
+  const aspect = useGetAspectRatioState();
+
   const starsRef = useRef<Mesh>();
+  const meshRef = useRef<Mesh>(null);
+
+  useEffect(() => {
+    if (!meshRef || !meshRef.current) return;
+    const tempNum = scrollY / 100;
+
+    // console.log(tempNum);
+    if (tempNum < 0) return;
+    else if (tempNum < 50) {
+      gsap.to(meshRef.current.position, {
+        z: tempNum * (aspect * 0.8) - 150,
+        x: tempNum / (2 * (5 / aspect)),
+        duration: 0.5,
+      });
+    }
+  }, [scrollY, aspect]);
 
   useFrame((_, delta) => {
     if (!starsRef || !starsRef.current) return;
@@ -70,7 +94,7 @@ const World: FC<PropsType> = ({ mouse2D }) => {
       {/* <OrbitControls /> */}
       {/* modles */}
       <CircleCursor />
-      <PlanetModel />
+      <PlanetModel ref={meshRef} />
       {/* <CircleCursor /> */}
       {/* <NebulaScene /> */}
       <Content />

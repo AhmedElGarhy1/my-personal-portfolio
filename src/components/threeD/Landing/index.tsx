@@ -16,8 +16,8 @@ const Landing: FC<PropsType> = ({ mouse2D }) => {
         camera={{
           position: [0, 0, 50],
           fov: 10,
-        }}
-        className=" bg-black ">
+        }}>
+        <color attach="background" args={["#1b1b32"]} />
         {/* <OrbitControls /> */}
         {/* <NebulaEffect /> */}
         <World mouse2D={mouse2D} />

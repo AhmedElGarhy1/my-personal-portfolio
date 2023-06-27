@@ -6,9 +6,10 @@ const Content = () => {
   const [scale, setScale] = useState(1);
   useEffect(() => {
     const handleResize = () => {
-      setScale(Math.min(innerWidth * 0.0014, 1));
+      setScale(Math.min(innerWidth * 0.0014, 0.8));
       const x = -(window.innerWidth / 150);
       setStartXPos(x);
+      console.log(innerWidth / innerHeight);
     };
 
     window.addEventListener("resize", handleResize);

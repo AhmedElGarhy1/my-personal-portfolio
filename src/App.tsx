@@ -6,10 +6,15 @@ import Landing from "./components/threeD/Landing";
 
 import VirtualScroll from "virtual-scroll";
 import { useAppDispatch } from "./hooks/store";
-import { updateMouseClicked, updateScrollY } from "./redux/slices/app";
+import {
+  addToScrollY,
+  updateAspectRatio,
+  updateIsMobile,
+  updateMouseClicked,
+} from "./redux/slices/app";
 
 const scroller = new VirtualScroll({
-  keyStep: 200,
+  // passive: false,
 });
 
 function App() {
@@ -34,16 +39,36 @@ function App() {
     window.addEventListener("pointerup", () => {
       dispatch(updateMouseClicked(false));
     });
-
     // scroll movement
     scroller.on((e) => {
-      updateScrollY(e.y);
+      dispatch(addToScrollY(-e.deltaY));
     });
+
+    const mediaQuery = window.matchMedia("(max-width: 500px)");
+    // Set the initial value of the `isMobile` state variable
+    dispatch(updateIsMobile(mediaQuery.matches));
+
+    // Define a callback function to handle changes to the media query
+    const handleMediaQueryChange = () => {
+      dispatch(updateIsMobile(mediaQuery.matches));
+    };
+
+    // Add the callback function as a listener for changes to the media query
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+
+    const handleResize = () =>
+      dispatch(updateAspectRatio(innerWidth / innerHeight));
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("touchmove", () => null);
       window.removeEventListener("pointermove", () => null);
       window.removeEventListener("pointerdown", () => null);
       window.removeEventListener("pointerup", () => null);
+      window.removeEventListener("resize", () => null);
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
     };
   }, []);
 

@@ -38,7 +38,7 @@ const ShaderTextMesh: FC<ParamsType> = ({
       x: mouse3D.x,
       y: mouse3D.y,
       z: mouse3D.z,
-      duration: 0.8,
+      duration: 0.3,
       ease: "power2.easeOut",
     });
 

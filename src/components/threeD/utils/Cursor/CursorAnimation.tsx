@@ -3,9 +3,13 @@ import { useFrame } from "@react-three/fiber";
 import { Mesh, Group } from "three";
 import { gsap } from "gsap";
 import ElectronRingParticles from "./ElectronAnimation";
-import { useGetMouse3DState } from "../../../../hooks/state";
+import {
+  useGetMouse3DState,
+  useGetMouseClickedState,
+} from "../../../../hooks/state";
 
 const CircleCursor: FC = () => {
+  const isMouseClicked = useGetMouseClickedState();
   const circleRef = useRef<Mesh>(null);
   const mouseCursorRef = useRef<Mesh>(null);
   const electronRef = useRef<Group>(null);
@@ -26,11 +30,12 @@ const CircleCursor: FC = () => {
     });
 
     // tempCircle.current.rotation.y += delta;
+    if (isMouseClicked) return;
     gsap.to(mesh.position, {
       x: mouse3D.x,
       y: mouse3D.y,
       z: mouse3D.z,
-      duration: 0.4,
+      duration: 0.3,
       ease: "power2.easeOut",
     });
   });
@@ -41,7 +46,7 @@ const CircleCursor: FC = () => {
         <sphereGeometry args={[0.08]} />
         <meshBasicMaterial color="white" />
       </mesh>
-      <mesh ref={circleRef} position={[0, 0, -10]}>
+      <mesh ref={circleRef}>
         <ElectronRingParticles ref={electronRef} />
       </mesh>
     </>
