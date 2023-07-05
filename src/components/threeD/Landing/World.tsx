@@ -40,15 +40,16 @@ const World: FC<PropsType> = ({ mouse2D }) => {
     if (!meshRef || !meshRef.current) return;
     const tempNum = scrollY / 100;
 
-    // console.log(tempNum);
     if (tempNum < 0) return;
+    // planet movement
     else if (tempNum < 50) {
       gsap.to(meshRef.current.position, {
-        z: tempNum * (aspect * 0.8) - 150,
+        z: Math.min(tempNum * (innerWidth * 0.0013) - 150, -30),
         x: tempNum / (2 * (5 / aspect)),
         duration: 0.5,
       });
     }
+    // intro text movement
   }, [scrollY, aspect]);
 
   useFrame((_, delta) => {
@@ -97,7 +98,7 @@ const World: FC<PropsType> = ({ mouse2D }) => {
       <PlanetModel ref={meshRef} />
       {/* <CircleCursor /> */}
       {/* <NebulaScene /> */}
-      <Content />
+      {/* <Content /> */}
       <Stars
         ref={starsRef}
         radius={50}

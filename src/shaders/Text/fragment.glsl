@@ -87,12 +87,12 @@ float snoise(vec3 v){
 void main() {
 
     vec3 newMouse  = uMouse - uTextPosition;
-
     float dist = abs(1.-step(0.9, distance(vPosition, newMouse)));
 
     float noise = (snoise(vPosition*3.+uTime*0.3));
     
     // expand the radius a little
     float alph = abs(1. - (1.-noise) *dist);
-    gl_FragColor = vec4(vec3(1.0),alph);
+    vec3 color = vec3(abs(1. ));
+    gl_FragColor = vec4(color,alph);
 }

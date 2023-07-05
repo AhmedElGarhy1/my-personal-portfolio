@@ -15,6 +15,7 @@ interface InitialStateType {
   mouseClicked: boolean;
   isMobile: boolean;
   aspect: number;
+  width: number;
 }
 
 // Define the initial state using that type
@@ -28,6 +29,7 @@ const initialState: InitialStateType = {
   mouseClicked: false,
   isMobile: false,
   aspect: 1,
+  width: window.innerWidth,
 };
 
 export const appSlice = createSlice({
@@ -52,6 +54,9 @@ export const appSlice = createSlice({
     updateAspectRatio: (state, action: PayloadAction<number>) => {
       state.aspect = action.payload;
     },
+    updateWidth: (state, action: PayloadAction<number>) => {
+      state.width = action.payload;
+    },
   },
 });
 
@@ -61,6 +66,7 @@ export const {
   updateMouse3D,
   addToScrollY,
   updateAspectRatio,
+  updateWidth,
 } = appSlice.actions;
 
 export const selectMouse3D = (state: RootState) => state.app.mouse3D;
@@ -68,5 +74,6 @@ export const selectMouseClicked = (state: RootState) => state.app.mouseClicked;
 export const selectScrollY = (state: RootState) => state.app.scrollY;
 export const selectIsMobile = (state: RootState) => state.app.isMobile;
 export const selectAspectRatio = (state: RootState) => state.app.aspect;
+export const selectWidth = (state: RootState) => state.app.width;
 
 export default appSlice.reducer;

@@ -11,6 +11,7 @@ import {
   updateAspectRatio,
   updateIsMobile,
   updateMouseClicked,
+  updateWidth,
 } from "./redux/slices/app";
 
 const scroller = new VirtualScroll({
@@ -34,10 +35,10 @@ function App() {
       setMouse2D(new Vector2(x, y));
     });
     window.addEventListener("pointerdown", () => {
-      dispatch(updateMouseClicked(true));
+      // dispatch(updateMouseClicked(true));
     });
     window.addEventListener("pointerup", () => {
-      dispatch(updateMouseClicked(false));
+      // dispatch(updateMouseClicked(false));
     });
     // scroll movement
     scroller.on((e) => {
@@ -56,8 +57,10 @@ function App() {
     // Add the callback function as a listener for changes to the media query
     mediaQuery.addEventListener("change", handleMediaQueryChange);
 
-    const handleResize = () =>
+    const handleResize = () => {
       dispatch(updateAspectRatio(innerWidth / innerHeight));
+      dispatch(updateWidth(window.innerWidth));
+    };
     handleResize();
 
     window.addEventListener("resize", handleResize);

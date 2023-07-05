@@ -20,6 +20,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.1",
+    "react-type-animation": "^3.1.0",
+    "react-typing-effect": "^2.0.5",
     "three": "^0.153.0",
     "virtual-scroll": "^2.2.1"
   },

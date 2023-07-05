@@ -4,6 +4,7 @@ import {
   selectMouse3D,
   selectMouseClicked,
   selectScrollY,
+  selectWidth,
 } from "../redux/slices/app";
 import { useAppSelector } from "./store";
 
@@ -27,4 +28,8 @@ export const useGetIsMobile = () => {
 export const useGetAspectRatioState = () => {
   const aspectRatio = useAppSelector(selectAspectRatio);
   return aspectRatio;
+};
+export const useGetWidthState = () => {
+  const width = useAppSelector(selectWidth);
+  return width;
 };

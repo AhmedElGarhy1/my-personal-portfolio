@@ -11,6 +11,7 @@ import {
   useGetAspectRatioState,
   useGetMouse3DState,
 } from "../../../hooks/state";
+
 const PlanetModel = forwardRef<Mesh>((_, ref) => {
   const mouse3D = useGetMouse3DState();
   // const isMobile = useGetIsMobile();
