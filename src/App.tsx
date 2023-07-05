@@ -10,7 +10,6 @@ import {
   addToScrollY,
   updateAspectRatio,
   updateIsMobile,
-  updateMouseClicked,
   updateWidth,
 } from "./redux/slices/app";
 

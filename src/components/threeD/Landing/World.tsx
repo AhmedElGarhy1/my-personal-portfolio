@@ -6,7 +6,6 @@ import PlanetModel from "./PlanetModel";
 import { useFrame } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import CircleCursor from "../utils/Cursor/CursorAnimation";
-import Content from "./Content";
 import { updateMouse3D } from "../../../redux/slices/app";
 import { useAppDispatch } from "../../../hooks/store";
 import {
