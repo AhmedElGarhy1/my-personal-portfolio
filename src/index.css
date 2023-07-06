@@ -44,6 +44,11 @@ html {
   padding: 8px 16px;
   transition: 0.2s;
 }
+.hire-me-button:hover {
+  scale: 1.05;
+  animation: box 3s infinite;
+}
+
 .hire-me-button::before {
   content: "";
   position: absolute;
@@ -106,5 +111,17 @@ html {
   }
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes box {
+  0% {
+    box-shadow: var(--main-color);
+  }
+  50% {
+    box-shadow: 0 0 25px 10px var(--main-color);
+  }
+  100% {
+    box-shadow: var(--main-color);
   }
 }

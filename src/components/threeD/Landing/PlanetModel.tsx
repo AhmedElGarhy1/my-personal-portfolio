@@ -12,6 +12,8 @@ import {
   useGetMouse3DState,
 } from "../../../hooks/state";
 
+let rotationX = 0.0;
+
 const PlanetModel = forwardRef<Mesh>((_, ref) => {
   const mouse3D = useGetMouse3DState();
   // const isMobile = useGetIsMobile();
@@ -91,9 +93,10 @@ const PlanetModel = forwardRef<Mesh>((_, ref) => {
     const mesh = ref.current;
     if (!mesh || !mesh?.rotation || !mouse3D) return;
 
+    rotationX += 0.001;
     const mouseRotation = gsap.to(mesh.rotation, {
       x: -mouse3D.y * 0.07,
-      y: mouse3D.x * 0.07,
+      y: mouse3D.x * 0.07 - rotationX,
       ease: "Power1.easeOut",
       duration: 5,
     });
