@@ -20,11 +20,7 @@ html {
 
 body {
   min-height: 100vh;
-  height: -webkit-fill-available;
   font-family: "Montserrat", sans-serif;
-}
-html {
-  height: -webkit-fill-available;
 }
 
 #root {

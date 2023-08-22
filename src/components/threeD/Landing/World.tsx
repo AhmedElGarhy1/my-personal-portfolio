@@ -14,19 +14,22 @@ import {
   useGetScrollYState,
 } from "../../../hooks/state";
 import { gsap } from "gsap";
+import HireMeForm from "../HireMe/HireMeForm";
 // import CircleCursor from "../utils/Cursor/CursorAnimation";
 // import NebulaScene from "./NebulaEffect";
 // import { gsap } from "gsap";
 
 interface PropsType {
   mouse2D: Vector2 | undefined;
+  isOpened: boolean;
 }
 
 const intersectionPoint = new Vector3();
 const planeNormal = new Vector3();
 const plane = new Plane();
 
-const World: FC<PropsType> = ({ mouse2D }) => {
+const World: FC<PropsType> = ({ mouse2D, isOpened }) => {
+  // const [isBouncing, setIsBouncing] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const mouse3D = useGetMouse3DState();
   const scrollY = useGetScrollYState();
@@ -34,6 +37,15 @@ const World: FC<PropsType> = ({ mouse2D }) => {
 
   const starsRef = useRef<Mesh>();
   const meshRef = useRef<Mesh>(null);
+
+  // useEffect(() => {
+  //   if (isOpened) {
+  //     setIsBouncing(true);
+  //     setTimeout(() => {
+  //       setIsBouncing(false);
+  //     }, 6000);
+  //   }
+  // }, [isOpened]);
 
   useEffect(() => {
     if (!meshRef || !meshRef.current) return;
@@ -53,6 +65,9 @@ const World: FC<PropsType> = ({ mouse2D }) => {
 
   useFrame((_, delta) => {
     if (!starsRef || !starsRef.current) return;
+    // let speed = delta;
+    // if (isOpened) speed = delta * 10;
+
     starsRef.current.rotation.y += delta / 100;
     starsRef.current.rotation.x += delta / 300;
   });
@@ -108,7 +123,7 @@ const World: FC<PropsType> = ({ mouse2D }) => {
         fade
         speed={3}
       />
-
+      <HireMeForm isOpened={isOpened} />
       {/* <Sky
         ref={skyRef}
         distance={10}

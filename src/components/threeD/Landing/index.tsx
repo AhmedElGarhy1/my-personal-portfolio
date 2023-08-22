@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Vector2 } from "three";
 import World from "./World";
@@ -11,18 +11,22 @@ interface PropsType {
 }
 
 const Landing: FC<PropsType> = ({ mouse2D }) => {
+  const [isHireMeClicked, setIsHireMeClicked] = useState<boolean>(false);
+  const toggleHireMe = () => {
+    setIsHireMeClicked((p) => !p);
+  };
   return (
     <>
-      <div className="relative h-full">
+      <div className="relative h-[100vh]">
         <Canvas
           camera={{
             position: [0, 0, 50],
             fov: 10,
           }}>
           <color attach="background" args={["#1b1b32"]} />
-          <World mouse2D={mouse2D} />
+          <World mouse2D={mouse2D} isOpened={isHireMeClicked} />
         </Canvas>
-        <IntroText />
+        <IntroText isOpened={isHireMeClicked} toggleHireMe={toggleHireMe} />
       </div>
     </>
   );

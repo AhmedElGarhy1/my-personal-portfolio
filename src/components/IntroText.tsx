@@ -1,20 +1,23 @@
 import { useProgress } from "@react-three/drei";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import { TypeAnimation } from "react-type-animation";
+import HireMeButton, {
+  IHireMeButtonParams,
+} from "./threeD/HireMe/HireMeButton";
 
 const delay = 500;
 
-const IntroText = () => {
+const IntroText: FC<IHireMeButtonParams> = (props) => {
   const { progress } = useProgress();
 
   const [start, setStart] = useState(false);
-  const [isButton, setIsButton] = useState(true);
+  const [isVisableButton, setIsVisableButton] = useState(true);
 
   useEffect(() => {
     if (progress === 100) {
       setStart(true);
       setTimeout(() => {
-        setIsButton(true);
+        setIsVisableButton(true);
       }, 20500);
     }
   }, [progress]);
@@ -57,12 +60,7 @@ const IntroText = () => {
         />
       </div>
       <div className="fixed top-2/3 left-8">
-        {isButton && (
-          <button className="hire-me-button">
-            <span>Hire Me {"-->"} </span>
-            <i></i>
-          </button>
-        )}
+        {isVisableButton && <HireMeButton {...props} />}
       </div>
     </>
   );

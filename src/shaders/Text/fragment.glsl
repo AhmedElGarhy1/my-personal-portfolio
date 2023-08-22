@@ -1,5 +1,6 @@
 
 uniform float uTime;
+uniform float uVisability;
 uniform vec3 uMouse;
 uniform vec3 uTextPosition;
 
@@ -93,6 +94,6 @@ void main() {
     
     // expand the radius a little
     float alph = abs(1. - (1.-noise) *dist);
-    vec3 color = vec3(abs(1. ));
-    gl_FragColor = vec4(color,alph);
+    vec3 color = vec3(0.);
+    gl_FragColor = vec4(color,alph*uVisability);
 }

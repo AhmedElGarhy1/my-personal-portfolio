@@ -51,7 +51,7 @@ const ShaderTextMesh = forwardRef<Text | undefined, ParamsType>(
       fragmentShader,
       uniforms: {
         uTextPosition: {
-          value: new Vector3(position[0], position[1], position[2]),
+          value: new Vector3(0, 0, 0),
         },
       },
     });

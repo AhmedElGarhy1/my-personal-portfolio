@@ -25,7 +25,7 @@ const CircleCursor: FC = () => {
       x: mouse3D.x,
       y: mouse3D.y,
       z: mouse3D.z,
-      duration: 0.1,
+      duration: 0.05,
       ease: "power2.easeOut",
     });
 
